@@ -78,4 +78,26 @@
 		</where>
 	</select>
 
+	<!--<delete id="deleteBatchUserByVO">
+		delete from t_user where id in
+		<foreach collection="datas" open="(" close=")" separator="," item="user">
+			#{user.id}
+		</foreach>
+	</delete>-->
+
+	<!--<delete id="deleteBatchUserByVO">
+		delete from t_user where id in
+		<foreach collection="list" open="(" close=")" separator="," item="user">
+			#{user.id}
+		</foreach>
+	</delete>-->
+
+
+	<delete id="deleteBatchUserByVO">
+		delete from t_user where id in
+		<foreach collection="userList" open="(" close=")" separator="," item="user">
+			#{user.id}
+		</foreach>
+	</delete>
+
 </mapper>

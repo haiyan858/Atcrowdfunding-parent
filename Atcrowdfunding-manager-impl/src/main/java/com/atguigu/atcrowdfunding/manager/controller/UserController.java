@@ -7,6 +7,7 @@ import com.atguigu.atcrowdfunding.util.AjaxResult;
 import com.atguigu.atcrowdfunding.util.Cont;
 import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //接收多条数据
+    @ResponseBody
+    @RequestMapping("/doDeleteBatch")
+    public Object doDeleteBatch(Data data){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = userService.deleteBatchUserByVO(data);
+            ajaxResult.setSuccess(count == data.getDatas().size());
+            ajaxResult.setMessage("删除成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("删除失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
 
+    /*
+    //接收一个参数名带多个值
     @ResponseBody
     @RequestMapping("/doDeleteBatch")
     public Object doDeleteBatch(Integer[] id){
@@ -48,7 +67,7 @@ public class UserController {
             e.printStackTrace();
         }
         return ajaxResult;
-    }
+    }*/
 
 
     @ResponseBody

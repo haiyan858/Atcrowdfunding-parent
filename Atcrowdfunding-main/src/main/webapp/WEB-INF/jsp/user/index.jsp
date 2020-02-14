@@ -169,7 +169,7 @@
             				$.each(data,function(i,n){
             					content+='<tr>';
                 				content+='  <td>'+(i+1)+'</td>';
-                				content+='  <td><input type="checkbox" id="'+n.id+'"></td>';
+                				content+='  <td><input type="checkbox" id="'+n.id+'" name="'+n.loginacct+'"></td>';
                 				content+='  <td>'+n.loginacct+'</td>';
                 				content+='  <td>'+n.username+'</td>';
                 				content+='  <td>'+n.email+'</td>';
@@ -257,7 +257,13 @@
             //选中复选框
             $("#allCheckBox").click(function () {
                 var checkedStatus = this.checked;
-                $("tbody tr td input[type='checkbox']").prop("checked",checkedStatus);
+                //$("tbody tr td input[type='checkbox']").attr("checked",checkedStatus); //多次反复选中/不选中时，不好使
+                //$("tbody tr td input[type='checkbox']").prop("checked",checkedStatus); //好使
+
+                var tbodyCheckbox = $("tbody tr td input[type='checkbox']");
+                $.each(tbodyCheckbox,function (i,n) {
+                    n.checked = checkedStatus;
+                });
             });
 
 
@@ -270,21 +276,29 @@
                     return false;
                 }
 
-                var idStr = ""; // url?id=5&id=7&id=8
+                /*var idStr = ""; // url?id=5&id=7&id=8
                 $.each(selectedCheckbox, function (i,n) {
                     if (i != 0){
                         idStr +="&";
                     }
                     idStr+="id="+n.id;
-                })
+                })*/
 
                 //alert(idStr);
 
-                layer.confirm("确认要删除这些用户"+idStr+"吗?",{icon: 3, title:'提示'},function (cindex) {
+                var jsonObj = {};//
+                $.each(selectedCheckbox, function (i,n) {
+                    jsonObj["datas["+i+"].id"]=n.id;
+                    jsonObj["datas["+i+"].loginacct"]=n.name;
+                });
+
+                //layer.confirm("确认要删除这些用户"+idStr+"吗?",{icon: 3, title:'提示'},function (cindex) {
+                layer.confirm("确认要删除这些用户吗?",{icon: 3, title:'提示'},function (cindex) {
                     layer.close(cindex);
                     $.ajax({
                         type:'POST',
-                        data: idStr,
+                        //data: idStr,
+                        data: jsonObj,
                         url: "${APP_PATH}/user/doDeleteBatch.do",
                         beforeSend : function() {
                             return true ;

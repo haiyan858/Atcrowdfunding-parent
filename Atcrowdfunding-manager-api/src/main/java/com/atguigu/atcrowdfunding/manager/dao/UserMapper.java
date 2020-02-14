@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.manager.dao;
 
 import com.atguigu.atcrowdfunding.bean.User;
+import com.atguigu.atcrowdfunding.vo.Data;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,4 +32,9 @@ public interface UserMapper {
 
     //Integer queryCount();
     Integer queryCount(Map paramMap);
+
+    //int deleteBatchUserByVO(Data data);
+    //int deleteBatchUserByVO(List<User> userList);
+    int deleteBatchUserByVO(@Param("userList") List<User> userList);
+
 }

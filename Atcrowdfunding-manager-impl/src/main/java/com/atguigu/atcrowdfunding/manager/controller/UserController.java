@@ -145,8 +145,8 @@ public class UserController {
     }
 
     //异步请求
-    @RequestMapping("/toIndex")
-    public String toIndex() {
+    @RequestMapping("/index")
+    public String index() {
         return "/user/index";
     }
 

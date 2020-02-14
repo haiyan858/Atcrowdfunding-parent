@@ -16,8 +16,6 @@
         创建Spring框架的IOC容器.
         将IOC容器对象存放到application域.
         ApplicationContext ioc = WebApplicationContextUtils.getWebApplicationContext(application);
-
-
         ServletContextListener监听器接口:
             监听ServletContext创建和销毁.
                 如果监听到ServletContext创建(服务器启动),就会创建IOC容器(XmlWebApplicationContext).
@@ -57,7 +55,6 @@
     </filter-mapping>
 
     <!-- 支持RESTful风格.将POST请求转换为PUT或DELETE请求.
-
     会读取隐含参数: "_method" -->
     <filter>
         <filter-name>HiddenHttpMethodFilter</filter-name>

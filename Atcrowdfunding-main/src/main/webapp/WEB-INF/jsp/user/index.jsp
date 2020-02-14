@@ -126,7 +126,15 @@
 					}
 				});
 			    queryPageUser(1);
+
+                showMenu();
             });
+
+            function showMenu() {
+                var href = window.location.href;
+                alert(href);
+            }
+
             $("tbody .btn-success").click(function(){
                 window.location.href = "assignRole.html";
             });

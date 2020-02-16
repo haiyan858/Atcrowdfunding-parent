@@ -1,5 +1,6 @@
 package com.atguigu.atcrowdfunding.manager.service.impl;
 
+import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.exception.LoginFailException;
 import com.atguigu.atcrowdfunding.manager.dao.UserMapper;
@@ -109,5 +110,25 @@ public class UserServiceImpl implements UserService {
     public int deleteBatchUserByVO(Data data) {
         //return userMapper.deleteBatchUserByVO(data);
         return userMapper.deleteBatchUserByVO(data.getDatas());
+    }
+
+    @Override
+    public List<Integer> queryRoleByUserId(Integer id) {
+        return userMapper.queryRoleByUserId(id);
+    }
+
+    @Override
+    public List<Role> queryAllRole() {
+        return userMapper.queryAllRole();
+    }
+
+    @Override
+    public int saveUserRoleRelationship(Integer userid, Data data) {
+        return userMapper.saveUserRoleRelationship(userid,data);
+    }
+
+    @Override
+    public int deleteUserRoleRelationship(Integer userid, Data data) {
+        return userMapper.deleteUserRoleRelationship(userid,data);
     }
 }

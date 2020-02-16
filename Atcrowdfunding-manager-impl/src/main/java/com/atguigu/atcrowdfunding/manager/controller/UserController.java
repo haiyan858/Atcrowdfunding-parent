@@ -1,5 +1,6 @@
 package com.atguigu.atcrowdfunding.manager.controller;
 
+import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.manager.dao.UserMapper;
 import com.atguigu.atcrowdfunding.manager.service.UserService;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author cuihaiyan
@@ -33,6 +31,65 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+    //分配角色
+    @ResponseBody
+    @RequestMapping("/doAssignRole")
+    public AjaxResult doAssignRole(Integer userid,Data data){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = userService.saveUserRoleRelationship(userid,data);
+            ajaxResult.setSuccess(count == data.getIds().size());
+            ajaxResult.setMessage("分配角色成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("分配角色失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+    //取消分配角色
+    @ResponseBody
+    @RequestMapping("/doUnAssignRole")
+    public AjaxResult doUnAssignRole(Integer userid,Data data){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = userService.deleteUserRoleRelationship(userid,data);
+            ajaxResult.setSuccess(count == data.getIds().size());
+            ajaxResult.setMessage("取消分配角色成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("取消分配角色失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+
+    //同步请求用map
+    @RequestMapping("/assignRole")
+    public String assignRole(Integer id, Map map) {
+        List<Integer> roleIds = userService.queryRoleByUserId(id);
+        List<Role> allListRole = userService.queryAllRole();
+
+        List<Role> leftRoleList = new ArrayList<>(); //已分配角色
+        List<Role> rightRoleList = new ArrayList<>(); //未分配角色
+
+        for (Role role: allListRole){
+            if (roleIds.contains(role.getId())){
+                rightRoleList.add(role);
+            }else {
+                leftRoleList.add(role);
+            }
+        }
+
+        map.put("leftRoleList",leftRoleList);
+        map.put("rightRoleList",rightRoleList);
+        return "user/assignRole";
+    }
+
 
     //接收多条数据
     @ResponseBody

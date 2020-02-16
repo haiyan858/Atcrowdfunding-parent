@@ -88,7 +88,7 @@
                         <i class="glyphicon glyphicon-remove"></i> 删除
                     </button>
                     <button type="button" class="btn btn-primary"
-                            style="float: right;" onclick="window.location.href='${APP_PATH}/role/add.htm'">
+                            style="float: right;" onclick="window.location.href='${APP_PATH}/role/toAdd.htm'">
                         <i class="glyphicon glyphicon-plus"></i> 新增
                     </button>
                     <br>

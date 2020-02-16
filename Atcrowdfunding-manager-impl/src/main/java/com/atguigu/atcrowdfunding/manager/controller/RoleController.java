@@ -1,5 +1,6 @@
 package com.atguigu.atcrowdfunding.manager.controller;
 
+import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.manager.dao.RoleMapper;
 import com.atguigu.atcrowdfunding.manager.service.RoleService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
@@ -25,6 +26,73 @@ public class RoleController {
 
     @Autowired
     private RoleService roleServiceimpl;
+
+    @ResponseBody
+    @RequestMapping("/doUpdate")
+    public AjaxResult doUpdate(Role role){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = roleServiceimpl.updateRole(role);
+            ajaxResult.setSuccess(count == 1);
+            ajaxResult.setMessage("更新成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("更新失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+    @RequestMapping("/edit")
+    public String edit(Integer pageno, Integer id, Map map) {
+        Role role = roleServiceimpl.selectByPrimaryKey(id);
+        map.put("role",role);
+        return "/role/edit";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/delete")
+    public AjaxResult delete(Integer uid){
+        AjaxResult ajaxResult = new AjaxResult();
+
+        try {
+            int count = roleServiceimpl.deleteByPrimaryKey(uid);
+            if (count == 1){
+                ajaxResult.setSuccess(true);
+            }
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            e.printStackTrace();
+            ajaxResult.setMessage("删除角色失败！");
+        }
+        return ajaxResult;
+    }
+
+    @RequestMapping("/toAdd")
+    public String toAdd() {
+        return "/role/add";
+    }
+
+    @ResponseBody
+    @RequestMapping("/doAdd")
+    public AjaxResult doAdd(Role role){
+        AjaxResult ajaxResult = new AjaxResult();
+
+        try {
+            int count = roleServiceimpl.save(role);
+            if (count == 1){
+                ajaxResult.setSuccess(true);
+            }
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            e.printStackTrace();
+            ajaxResult.setMessage("新增角色失败！");
+        }
+
+        return ajaxResult;
+    }
+
 
     //异步请求
     @ResponseBody

@@ -14,4 +14,12 @@ public interface RoleMapper {
     List<Role> queryList(Map paramMap);
 
     Integer queryCount(Map paramMap);
+
+    int insert(Role role);
+
+    int deleteByPrimaryKey(Integer uid);
+
+    Role selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKey(Role role);
 }

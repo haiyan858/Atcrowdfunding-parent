@@ -1,5 +1,6 @@
 package com.atguigu.atcrowdfunding.manager.service;
 
+import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.util.Page;
 
 import java.util.Map;
@@ -11,4 +12,12 @@ import java.util.Map;
  */
 public interface RoleService {
     Page queryPage(Map paramMap);
+
+    int save(Role role);
+
+    int deleteByPrimaryKey(Integer uid);
+
+    Role selectByPrimaryKey(Integer id);
+
+    int updateRole(Role role);
 }

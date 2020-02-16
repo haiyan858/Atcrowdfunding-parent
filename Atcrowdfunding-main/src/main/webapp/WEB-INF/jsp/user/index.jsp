@@ -112,12 +112,13 @@
     <script src="${APP_PATH }/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${APP_PATH }/script/docs.min.js"></script>
 	<script type="text/javascript" src="${APP_PATH }/jquery/layer/layer.js"></script>
+    <script type="text/javascript" src="${APP_PATH}/script/left.js"></script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
             $(function () {
 			    $(".list-group-item").click(function(){
 				    if ( $(this).find("ul") ) {
-						$(this).toggleClass("tree-closed");
+						$(this).toggleClass("tree-closed");``
 						if ( $(this).hasClass("tree-closed") ) {
 							$("ul", this).hide("fast");
 						} else {
@@ -127,26 +128,9 @@
 				});
 			    queryPageUser(1);
 
-                showMenu();
+                showMenu(); //script/left.js
             });
 
-            function showMenu() {
-                var href = window.location.href; //http://localhost:8080/user/index.htm
-                var host = window.location.host;
-                var index = href.indexOf(host);
-                var path = href.substring(index+host.length);
-
-                var contextPath = "${APP_PATH}";
-                var pathAddress = path.substring(contextPath.length);
-
-                var alink = $(".list-group a[href*='"+pathAddress+"']");
-
-                alink.css("color","red");
-                alink.parent().parent().parent().removeClass("tree-closed")
-                alink.parent().parent().show();
-
-                //alert(alink);
-            }
 
             $("tbody .btn-success").click(function(){
                 window.location.href = "assignRole.html";

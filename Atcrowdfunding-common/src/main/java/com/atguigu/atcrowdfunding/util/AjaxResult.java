@@ -8,12 +8,12 @@ package com.atguigu.atcrowdfunding.util;
 public class AjaxResult {
     private boolean success;
     private String message;
+    private Page page;
+
 
     public void setPage(Page page) {
         this.page = page;
     }
-
-    private Page page;
 
     public Page getPage() {
         return page;

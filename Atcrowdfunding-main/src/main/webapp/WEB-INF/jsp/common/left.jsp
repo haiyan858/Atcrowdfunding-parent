@@ -7,11 +7,8 @@
 <li class="list-group-item tree-closed">
     <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span>
     <ul style="margin-top:10px;display:none;">
-        <%--<li style="height:30px;">
-            <a href="${APP_PATH}/user/index.do"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
-        </li>--%>
         <li>
-            <a href="${APP_PATH}/user/index.htm"><i class="glyphicon glyphicon-user"></i> 用户维护2</a>
+            <a href="${APP_PATH}/user/index.htm"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
         </li>
         <li style="height:30px;">
             <a href="${APP_PATH}/role/index.htm"><i class="glyphicon glyphicon-king"></i> 角色维护</a>

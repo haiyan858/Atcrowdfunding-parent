@@ -1,5 +1,7 @@
 package com.atguigu.atcrowdfunding.bean;
 
+import java.util.List;
+
 public class Permission {
     private Integer id;
 
@@ -10,6 +12,26 @@ public class Permission {
     private String icon;
 
     private String url;
+
+    private boolean open; //树是否展开
+
+    private List<Permission> children; //子节点
+
+    public List<Permission> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Permission> children) {
+        this.children = children;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
 
     public Integer getId() {
         return id;

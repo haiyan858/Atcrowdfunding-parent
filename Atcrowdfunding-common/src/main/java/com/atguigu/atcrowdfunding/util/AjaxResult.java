@@ -10,14 +10,8 @@ public class AjaxResult {
     private String message;
     private Page page;
 
+    private Object data; //传许可树的数据
 
-    public void setPage(Page page) {
-        this.page = page;
-    }
-
-    public Page getPage() {
-        return page;
-    }
 
     public boolean isSuccess() {
         return success;
@@ -35,4 +29,19 @@ public class AjaxResult {
         this.message = message;
     }
 
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }

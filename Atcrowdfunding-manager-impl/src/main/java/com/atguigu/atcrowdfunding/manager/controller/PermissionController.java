@@ -23,6 +23,11 @@ public class PermissionController {
     @Autowired
     private PermissionService permissionService;
 
+    /**
+     * 加载许可树： 循环加载
+     * 缺点：树的深度是写死的
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/loadData")
     public Object loadData(){

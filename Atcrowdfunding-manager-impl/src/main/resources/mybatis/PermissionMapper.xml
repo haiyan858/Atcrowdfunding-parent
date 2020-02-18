@@ -46,4 +46,9 @@
          from t_permission where pid=#{id,jdbcType=INTEGER}
   </select>
 
+  <select id="queryAllPermission" resultMap="BaseResultMap">
+     select id, pid, name, icon, url
+         from t_permission
+  </select>
+
 </mapper>

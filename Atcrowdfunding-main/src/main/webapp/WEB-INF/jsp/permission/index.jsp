@@ -110,8 +110,12 @@
         url: "${APP_PATH}/permission/loadData.do",
         type:"post",
         success: function (result) {
-            var zNodes = result.data;
-            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            if (result.success){
+                var zNodes = result.data;
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            }else {
+                layer.msg(result.message, {time:1000, icon:5, shift:6});
+            }
         }
     });
 

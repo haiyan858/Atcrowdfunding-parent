@@ -1,5 +1,6 @@
 package com.atguigu.atcrowdfunding.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Permission {
@@ -15,7 +16,7 @@ public class Permission {
 
     private boolean open; //树是否展开
 
-    private List<Permission> children; //子节点
+    private List<Permission> children = new ArrayList<Permission>(); //子节点
 
     public List<Permission> getChildren() {
         return children;

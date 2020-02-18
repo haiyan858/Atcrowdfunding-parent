@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author cuihaiyan
@@ -23,13 +25,97 @@ public class PermissionController {
     @Autowired
     private PermissionService permissionService;
 
+
+    /**
+     * 加载许可树：用map集合来查找父，来组合父子关系，减少循环的次数，提高性能
+     * 解决：一次加载所有数据，减少与数据库的交互次数
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/loadData")
+    public Object loadData(){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            //根节点
+            List<Permission> root = new ArrayList<Permission>();
+            List<Permission> permissionList = permissionService.queryAllPermission();
+
+            Map<Integer,Permission> map = new HashMap<Integer, Permission>();
+            for (Permission permission: permissionList){
+                map.put(permission.getId(),permission);
+            }
+
+            for (Permission permission: permissionList){
+                //Permission child = permission; //假设为子菜单
+                permission.setOpen(true);
+                if (permission.getPid() == null){
+                    root.add(permission);
+                }else {
+                    //父节点
+                    Permission parent = map.get(permission.getPid());
+                    parent.getChildren().add(permission);
+                }
+            }
+
+            ajaxResult.setData(root);
+            ajaxResult.setSuccess(true);
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("加载许可树数据失败");
+            e.printStackTrace();
+        }
+
+        return ajaxResult;
+    }
+
+
+    /**
+     * 加载许可树： 双层for循环加载
+     * 解决：一次加载所有数据，减少与数据库的交互次数
+     * @return
+     */
+    /*@ResponseBody
+    @RequestMapping("/loadData")
+    public Object loadData(){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            //根节点
+            List<Permission> root = new ArrayList<Permission>();
+            List<Permission> childrenPermissions = permissionService.queryAllPermission();
+            for (Permission permission: childrenPermissions){
+                Permission child = permission;
+                if (child.getPid() == null){
+                    root.add(permission);
+                }else {
+                    for (Permission innerPermission : childrenPermissions){
+                        if (child.getPid() == innerPermission.getId()){
+                            Permission parent =  innerPermission;
+                            parent.getChildren().add(child);
+                            break; //跳出内层循环，如果跳出外层循环，需要使用标签跳出
+                        }
+                    }
+                }
+            }
+
+            ajaxResult.setData(root);
+            ajaxResult.setSuccess(true);
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("加载许可树数据失败");
+            e.printStackTrace();
+        }
+
+        return ajaxResult;
+    }*/
+
+
     /**
      * 加载许可树： 递归加载
      * 解决许可树多个层次的问题
      * 缺点：与数据库多次交互
      * @return
      */
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/loadData")
     public Object loadData(){
         AjaxResult ajaxResult = new AjaxResult();
@@ -55,7 +141,7 @@ public class PermissionController {
         }
 
         return ajaxResult;
-    }
+    }*/
     
     private void queryChildPermissions(Permission parent){
         List<Permission> childrenPermissions = permissionService.getChildrenPermissionByPid(parent.getId());

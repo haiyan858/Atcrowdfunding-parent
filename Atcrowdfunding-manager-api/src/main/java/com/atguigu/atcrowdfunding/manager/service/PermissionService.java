@@ -13,4 +13,7 @@ public interface PermissionService {
     Permission getRootPermission();
 
     List<Permission> getChildrenPermissionByPid(Integer id);
+
+    List<Permission> queryAllPermission();
+
 }

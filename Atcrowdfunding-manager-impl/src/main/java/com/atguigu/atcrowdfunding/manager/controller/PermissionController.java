@@ -24,10 +24,54 @@ public class PermissionController {
     private PermissionService permissionService;
 
     /**
+     * 加载许可树： 递归加载
+     * 解决许可树多个层次的问题
+     * 缺点：与数据库多次交互
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/loadData")
+    public Object loadData(){
+        AjaxResult ajaxResult = new AjaxResult();
+
+        try {
+
+            //根节点
+            List<Permission> root = new ArrayList<Permission>();
+
+            //父节点
+            Permission permission = permissionService.getRootPermission();
+            permission.setOpen(true);
+            root.add(permission);
+
+            queryChildPermissions(permission);
+
+            ajaxResult.setData(root);
+            ajaxResult.setSuccess(true);
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("加载许可树数据失败");
+            e.printStackTrace();
+        }
+
+        return ajaxResult;
+    }
+    
+    private void queryChildPermissions(Permission parent){
+        List<Permission> childrenPermissions = permissionService.getChildrenPermissionByPid(parent.getId());
+        parent.setChildren(childrenPermissions);
+        for (Permission permission: childrenPermissions){
+            permission.setOpen(true);
+            queryChildPermissions(permission);
+        }
+    }
+
+
+    /**
      * 加载许可树： 循环加载
      * 缺点：树的深度是写死的
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping("/loadData")
     public Object loadData(){
@@ -63,7 +107,7 @@ public class PermissionController {
         }
 
         return ajaxResult;
-    }
+    }*/
 
 
     /*@ResponseBody

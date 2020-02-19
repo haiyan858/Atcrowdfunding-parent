@@ -16,4 +16,5 @@ public interface PermissionService {
 
     List<Permission> queryAllPermission();
 
+    List<Integer> queryPermissionidsByRoleid(Integer roleid);
 }

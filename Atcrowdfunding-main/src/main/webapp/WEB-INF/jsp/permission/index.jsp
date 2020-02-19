@@ -102,7 +102,16 @@
         });
     });
 
-    var setting = {	};
+    var setting = {
+        view: {
+            addDiyDom: function(treeId, treeNode){
+                var icoObj = $("#" + treeNode.tId + "_ico"); // tId = permissionTree_1, $("#permissionTree_1_ico")
+                if ( treeNode.icon ) {
+                    icoObj.removeClass("button ico_docu ico_open").addClass(treeNode.icon).css("background","");
+                }
+            },
+        }
+    };
 
     var zNodes = {};
 

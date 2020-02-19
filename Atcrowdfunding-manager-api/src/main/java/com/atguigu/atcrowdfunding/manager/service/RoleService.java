@@ -2,6 +2,7 @@ package com.atguigu.atcrowdfunding.manager.service;
 
 import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 
 import java.util.Map;
 
@@ -20,4 +21,6 @@ public interface RoleService {
     Role selectByPrimaryKey(Integer id);
 
     int updateRole(Role role);
+
+    int batchDelete(Data data);
 }

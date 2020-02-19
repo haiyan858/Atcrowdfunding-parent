@@ -304,7 +304,7 @@
                 $.each(checkedList,function(i,n){
 
                     datas["datas["+i+"].id"]=n.value;
-                    datas["datas["+i+"].name"]="111";
+                    datas["datas["+i+"].name"]=n.name;
                 });
 
                 $.ajax({

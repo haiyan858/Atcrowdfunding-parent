@@ -10,11 +10,15 @@ public class Permission {
 
     private String name;
 
-    private String icon;
+    private String icon; //字体图标
 
     private String url;
 
     private boolean open; //树是否展开
+
+    private boolean checked; //节点是否被选中
+
+    private int level; //节点层级
 
     private List<Permission> children = new ArrayList<Permission>(); //子节点
 
@@ -72,5 +76,21 @@ public class Permission {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

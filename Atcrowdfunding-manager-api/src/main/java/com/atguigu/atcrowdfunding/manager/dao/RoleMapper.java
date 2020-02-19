@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.manager.dao;
 
 import com.atguigu.atcrowdfunding.bean.Role;
+import com.atguigu.atcrowdfunding.vo.Data;
 
 import java.util.List;
 import java.util.Map;
@@ -22,4 +23,6 @@ public interface RoleMapper {
     Role selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKey(Role role);
+
+    int batchDelete(Data data);
 }

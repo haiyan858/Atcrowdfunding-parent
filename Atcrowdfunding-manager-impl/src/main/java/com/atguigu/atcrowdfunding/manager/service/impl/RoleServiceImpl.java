@@ -4,6 +4,7 @@ import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.manager.dao.RoleMapper;
 import com.atguigu.atcrowdfunding.manager.service.RoleService;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,5 +56,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int updateRole(Role role) {
         return roleMapper.updateByPrimaryKey(role);
+    }
+
+    @Override
+    public int batchDelete(Data data) {
+        return roleMapper.batchDelete(data);
     }
 }

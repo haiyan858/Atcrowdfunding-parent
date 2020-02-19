@@ -36,7 +36,7 @@
   <select id="queryList" resultMap="BaseResultMap">
     select id,name from t_role
     <where>
-      <if test="queryText!=null"> loginacct like concat("%",#{queryText}, "%")</if>
+      <if test="queryText!=null"> name like concat("%",#{queryText}, "%")</if>
     </where>
     limit #{startIndex},#{pagesize}
   </select>
@@ -44,8 +44,16 @@
   <select id="queryCount" resultType="int">
     select count(*) from t_role
     <where>
-      <if test="queryText!=null"> loginacct like concat("%",#{queryText}, "%")</if>
+      <if test="queryText!=null"> name like concat("%",#{queryText}, "%")</if>
     </where>
   </select>
+
+  <delete id="batchDelete">
+    delete from t_role where id in 
+    <foreach collection="datas" item="role" open="(" close=")" separator=",">
+      #{role.id}
+    </foreach>
+  </delete>
+
 
 </mapper>

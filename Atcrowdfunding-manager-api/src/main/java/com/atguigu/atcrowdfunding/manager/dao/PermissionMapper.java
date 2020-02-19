@@ -10,7 +10,7 @@ import java.util.List;
  * @Description:
  */
 public interface PermissionMapper {
-    int deleteBYPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Permission record);
 

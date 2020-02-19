@@ -100,6 +100,8 @@
                 }
             }
         });
+
+        loadData();
     });
 
     var setting = {
@@ -110,27 +112,79 @@
                     icoObj.removeClass("button ico_docu ico_open").addClass(treeNode.icon).css("background","");
                 }
             },
+            addHoverDom: function (treeId,treeNode) { //鼠标悬停时：显示增删改查的自定义按钮
+                var aObj = $("#" + treeNode.tId + "_a"); // tId = permissionTree_1, ==> $("#permissionTree_1_a")
+                //aObj.attr("href", "javascript:;"); //取消当前链接事件
+                aObj.attr("href", "#").attr("target", "_parent"); //谷歌把这句代码改成这样就不跳转了：
+                if (treeNode.editNameFlag || $("#btnGroup"+treeNode.tId).length>0) return;
+                var s = '<span id="btnGroup'+treeNode.tId+'">';
+                if ( treeNode.level == 0 ) { //根节点
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="window.location.href=\'${APP_PATH}/permission/toAdd.htm?id='+treeNode.id+'\'">&nbsp;&nbsp;<i class="fa fa-fw fa-plus rbg "></i></a>';
+                } else if ( treeNode.level == 1 ) {//分支节点
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;"  href="#" onclick="window.location.href=\'${APP_PATH}/permission/toUpdate.htm?id='+treeNode.id+'\'" title="修改权限信息">&nbsp;&nbsp;<i class="fa fa-fw fa-edit rbg "></i></a>';
+                    if (treeNode.children.length == 0) {
+                        s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+treeNode.id+','+treeNode.name+')" >&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
+                    }
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="window.location.href=\'${APP_PATH}/permission/toAdd.htm?id='+treeNode.id+'\'" >&nbsp;&nbsp;<i class="fa fa-fw fa-plus rbg "></i></a>';
+                } else if ( treeNode.level == 2 ) { //叶子节点
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;"  href="#" onclick="window.location.href=\'${APP_PATH}/permission/toUpdate.htm?id='+treeNode.id+'\'" title="修改权限信息">&nbsp;&nbsp;<i class="fa fa-fw fa-edit rbg "></i></a>';
+                    s += '<a class="btn btn-info dropdown-toggle btn-xs" style="margin-left:10px;padding-top:0px;" href="#" onclick="deletePermission('+treeNode.id+','+treeNode.name+')" >&nbsp;&nbsp;<i class="fa fa-fw fa-times rbg "></i></a>';
+                }
+
+                s += '</span>';
+                aObj.after(s);
+            },
+            removeHoverDom: function(treeId, treeNode){
+                $("#btnGroup"+treeNode.tId).remove();
+            }
+
         }
     };
 
-    var zNodes = {};
-
-    $.ajax({
-        url: "${APP_PATH}/permission/loadData.do",
-        type:"post",
-        success: function (result) {
-            if (result.success){
-                var zNodes = result.data;
-                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-            }else {
-                layer.msg(result.message, {time:1000, icon:5, shift:6});
+    function loadData(){
+        $.ajax({
+            url:"${APP_PATH}/permission/loadData.do",
+            type:"post",
+            success:function(result){
+                if(result.success){
+                    var zNodes = result.data ;
+                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                }else{
+                    alert("加载数据失败...");
+                }
             }
-        }
-    });
+
+        });
+    }
 
     /*$(document).ready(function(){
         $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     });*/
+
+
+    function deletePermission(id,name){
+
+        layer.confirm("确定要删除["+name+"]许可吗?",  {icon: 3, title:'提示'}, function(cindex){
+            layer.close(cindex);
+            $.ajax({
+                url:"${APP_PATH}/permission/deletePermission.do",
+                data : {
+                    "id" : id
+                },
+                type:"post",
+                success:function(result){
+                    if(result.success){
+                        loadData();
+                    }else{
+                        layer.msg(result.message, {time:1000, icon:5, shift:6});
+                    }
+                }
+
+            });
+        }, function(cindex){
+            layer.close(cindex);
+        });
+    }
 
 </script>
 </body>

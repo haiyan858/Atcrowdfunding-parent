@@ -26,6 +26,69 @@ public class PermissionController {
     private PermissionService permissionService;
 
 
+    @ResponseBody
+    @RequestMapping("/deletePermission")
+    public Object deletePermission(Integer id){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = permissionService.deletePermission(id);
+            ajaxResult.setSuccess(count == 1);
+            ajaxResult.setMessage("删除许可树数据成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("删除许可树数据失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+    @ResponseBody
+    @RequestMapping("/doUpdate")
+    public Object doUpdate(Permission permission){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = permissionService.updatePermission(permission);
+            ajaxResult.setSuccess(count == 1);
+            ajaxResult.setMessage("更新许可树数据成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("更新许可树数据失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+    @RequestMapping("/toUpdate")
+    public String toUpdate(Integer id, Map map){
+        Permission permission =permissionService.queryPermissionByPrimaryKeyId(id);
+        map.put("permission",permission);
+        return "permission/update" ;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/doAdd")
+    public Object doAdd(Permission permission){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = permissionService.savePermission(permission);
+            ajaxResult.setSuccess(count == 1);
+            ajaxResult.setMessage("保存许可树数据成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("保存许可树数据失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+
+    @RequestMapping("/toAdd")
+    public String toAdd(){
+        return "permission/add" ;
+    }
+
+
     /**
      * 加载许可树：用map集合来查找父，来组合父子关系，减少循环的次数，提高性能
      * 解决：一次加载所有数据，减少与数据库的交互次数

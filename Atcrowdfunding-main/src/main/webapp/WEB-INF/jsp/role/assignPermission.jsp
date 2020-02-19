@@ -127,7 +127,7 @@
             async: {
                 enable: true, //采用异步
                 url:"${APP_PATH}/role/loadDataAsync.do?roleid=${param.roleid}", // ?id=1&n=xxx&lv=2
-                autoParam:["id", "name=n", "level=lv"]
+                autoParam:["id", "name=n", "level=lv"] //参数别名 name->n
             },
             callback: {
                 onClick : function(event, treeId, json) {
@@ -188,9 +188,6 @@
                 }
             });
         }
-
-
-
 
 
     });

@@ -35,6 +35,13 @@ public class RoleController {
     @Autowired
     private PermissionService permissionService;
 
+
+
+    @RequestMapping("/assignPermission")
+    public String assignPermission() {
+        return "role/assignPermission";
+    }
+
     @ResponseBody
     @RequestMapping("/loadDataAsync")
     public Object loadDataAsync(Integer roleid){
@@ -42,10 +49,8 @@ public class RoleController {
 
         List<Permission> childredPermissons =  permissionService.queryAllPermission();
 
-
         //根据角色id查询该角色之前所分配过的许可.
         List<Integer> permissonIdsForRoleid = permissionService.queryPermissionidsByRoleid(roleid);
-
 
         Map<Integer,Permission> map = new HashMap<Integer,Permission>();//100
 
@@ -58,6 +63,7 @@ public class RoleController {
         }
 
         for (Permission permission : childredPermissons) { //100
+            permission.setOpen(true);
             //通过子查找父
             //子菜单
             //Permission child = permission ; //假设为子菜单
@@ -70,8 +76,23 @@ public class RoleController {
             }
         }
 
-
         return root ;
+    }
+
+    @ResponseBody
+    @RequestMapping("/doAssignPermission")
+    public AjaxResult doAssignPermission(Integer roleid,Data datas){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = roleServiceimpl.saveRolePermissionRelationship(roleid, datas);
+            ajaxResult.setSuccess(count == datas.getIds().size());
+            ajaxResult.setMessage("分配权限成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("分配权限失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
     }
 
 
@@ -199,11 +220,5 @@ public class RoleController {
     public String role() {
         return "role";
     }
-
-    @RequestMapping("/assignPermission")
-    public String assignPermission() {
-        return "role/assignPermission";
-    }
-
 
 }

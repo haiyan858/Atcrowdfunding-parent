@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.manager.dao;
 
 import com.atguigu.atcrowdfunding.bean.Role;
+import com.atguigu.atcrowdfunding.bean.RolePermission;
 import com.atguigu.atcrowdfunding.vo.Data;
 
 import java.util.List;
@@ -25,4 +26,8 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role role);
 
     int batchDelete(Data data);
+
+    void deleteRolePermissionRelationship(Integer roleid);
+
+    int insertRolePermission(RolePermission rp);
 }

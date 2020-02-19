@@ -1,6 +1,7 @@
 package com.atguigu.atcrowdfunding.manager.service.impl;
 
 import com.atguigu.atcrowdfunding.bean.Role;
+import com.atguigu.atcrowdfunding.bean.RolePermission;
 import com.atguigu.atcrowdfunding.manager.dao.RoleMapper;
 import com.atguigu.atcrowdfunding.manager.service.RoleService;
 import com.atguigu.atcrowdfunding.util.Page;
@@ -61,5 +62,23 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int batchDelete(Data data) {
         return roleMapper.batchDelete(data);
+    }
+
+    //先删除原先的所有权限，再分配新的权限
+    @Override
+    public int saveRolePermissionRelationship(Integer roleid, Data datas) {
+        roleMapper.deleteRolePermissionRelationship(roleid);//删除原先的所有权限
+
+        int totalcount = 0;
+        List<Integer> ids = datas.getIds();
+        for (Integer permissionid : ids){
+            RolePermission rp = new RolePermission();
+            rp.setRoleid(roleid);
+            rp.setPermissionid(permissionid);
+            int count = roleMapper.insertRolePermission(rp); //分配新的权限
+            totalcount += count;
+        }
+
+        return totalcount;
     }
 }

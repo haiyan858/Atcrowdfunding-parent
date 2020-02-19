@@ -56,4 +56,9 @@
         <property name="maxUploadSize" value="2097152"/>
         <property name="resolveLazily" value="true"/>
     </bean>
+
+    <!--声明登录权限拦截器-->
+    <mvc:interceptors>
+        <bean id="loginInterceptor" class="com.atguigu.atcrowdfunding.interceptor.LoginInterceptor"></bean>
+    </mvc:interceptors>
 </beans>

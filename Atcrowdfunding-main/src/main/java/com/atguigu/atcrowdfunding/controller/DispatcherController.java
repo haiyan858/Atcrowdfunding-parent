@@ -6,15 +6,14 @@ import com.atguigu.atcrowdfunding.manager.service.UserService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
 import com.atguigu.atcrowdfunding.util.Cont;
 import com.atguigu.atcrowdfunding.util.MD5Util;
+import com.atguigu.atcrowdfunding.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author cuihaiyan
@@ -32,7 +31,7 @@ public class DispatcherController {
     @RequestMapping("/main")
     public String main(HttpSession session){
 
-        //加载当前登录用户所拥有的许可权限
+        /*//加载当前登录用户所拥有的许可权限
 
         User user = (User) session.getAttribute(Cont.LOGIN_USER);
 
@@ -40,10 +39,18 @@ public class DispatcherController {
 
         Permission permissionRoot = null;
 
+        //存放用户已分配的uri
+        Set<String> myAuthURIs = new HashSet<>(); //用于拦截器拦截许可权限
+
         Map<Integer,Permission> map = new HashMap<Integer, Permission>();
         for (Permission permission: myPermissions){
             map.put(permission.getId(),permission);
+            if (StringUtil.isNotEmpty(permission.getUrl())){
+                myAuthURIs.add("/"+permission.getUrl());
+            }
         }
+
+        session.setAttribute(Cont.MY_URIS,myAuthURIs);
 
         for (Permission permission: myPermissions){
             //Permission child = permission; //假设为子菜单
@@ -58,7 +65,7 @@ public class DispatcherController {
         }
 
         //sessionScope.permissionRoot.children
-        session.setAttribute("permissionRoot",permissionRoot);
+        session.setAttribute("permissionRoot",permissionRoot);*/
         return "main";
     }
 
@@ -104,6 +111,45 @@ public class DispatcherController {
 //        map.put("success",true);
 //        map.put("message","登录成功");
 ////        return map; //ok
+
+            //------------------------------------------------------------------------------------------------------------------------
+
+            //加载当前登录用户所拥有的许可权限
+
+            //User user = (User) session.getAttribute(Cont.LOGIN_USER);
+
+            List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId());
+
+            Permission permissionRoot = null;
+
+            //存放用户已分配的uri
+            Set<String> myAuthURIs = new HashSet<>(); //用于拦截器拦截许可权限
+
+            Map<Integer,Permission> map = new HashMap<Integer, Permission>();
+            for (Permission permission: myPermissions){
+                map.put(permission.getId(),permission);
+                if (StringUtil.isNotEmpty(permission.getUrl())){
+                    myAuthURIs.add("/"+permission.getUrl());
+                }
+            }
+
+            session.setAttribute(Cont.MY_URIS,myAuthURIs);
+
+            for (Permission permission: myPermissions){
+                //Permission child = permission; //假设为子菜单
+                permission.setOpen(true);
+                if (permission.getPid() == null){
+                    permissionRoot = permission;
+                }else {
+                    //父节点
+                    Permission parent = map.get(permission.getPid());
+                    parent.getChildren().add(permission);
+                }
+            }
+
+            //sessionScope.permissionRoot.children
+            session.setAttribute("permissionRoot",permissionRoot);
+
 
             ajaxResult.setSuccess(true);
             ajaxResult.setMessage("登录成功");

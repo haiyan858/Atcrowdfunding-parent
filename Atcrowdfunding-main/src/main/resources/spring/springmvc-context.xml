@@ -60,5 +60,6 @@
     <!--声明登录权限拦截器-->
     <mvc:interceptors>
         <bean id="loginInterceptor" class="com.atguigu.atcrowdfunding.interceptor.LoginInterceptor"></bean>
+        <bean id="authInterceptor" class="com.atguigu.atcrowdfunding.interceptor.AuthInterceptor"></bean>
     </mvc:interceptors>
 </beans>

@@ -47,7 +47,7 @@
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" value="remember-me"> 记住我
+                <input id="rememberme" type="checkbox"  value="1"> 记住我2周
             </label>
             <br>
             <label>
@@ -70,7 +70,6 @@
         var fuserpswd = $("#fuserpswd");
         var ftype = $("#ftype");
 
-
         //对于表单数据而言不能用null进行判断,如果文本框什么都不输入,获取的值是""
         if($.trim(floginacct.val()) == ""){
             //alert("用户账号不能为空,请重新输入!");
@@ -81,13 +80,16 @@
             return false ;
         }
 
+        var flag = $("#rememberme")[0].checked; //是否选中【记住我】 //[0] 是把jquery对象变为dom对象
+        //alert(flag)
         var loadingIndex = -1;
         $.ajax({
             type : "POST",
             data : {
                 loginacct : floginacct.val(),
                 userpswd : fuserpswd.val(),
-                type : ftype.val()
+                type : ftype.val(),
+                rememberme:flag ?"1":"0"
             },
             url : "${APP_PATH}/doLogin.do",
             beforeSend : function(){

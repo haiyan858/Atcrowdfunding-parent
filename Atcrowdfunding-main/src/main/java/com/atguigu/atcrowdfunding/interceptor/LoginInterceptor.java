@@ -29,6 +29,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         url.add("/login.htm");
         url.add("/doLogin.do");
         url.add("/logout.htm");
+        url.add("/index.htm");
 
         String servletPath = request.getServletPath(); //请求路径
         if (url.contains(servletPath)){

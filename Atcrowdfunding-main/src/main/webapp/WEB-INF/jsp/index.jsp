@@ -110,7 +110,8 @@
                 <div id="navbar" class="navbar-collapse collapse" style="float:right;">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="${APP_PATH }/login.htm">登录</a></li>
-                        <li><a href="reg.html">注册</a></li>
+                        <li><a href="${APP_PATH }/reg.html">注册</a></li>
+                        <li><a href="${APP_PATH }/logoutUser.htm">切换用户</a></li>
                     </ul>
                 </div>
             </div>

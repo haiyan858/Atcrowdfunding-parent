@@ -5,6 +5,7 @@ import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.manager.dao.AdvertMappper;
 import com.atguigu.atcrowdfunding.manager.service.AdvertService;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +45,26 @@ public class AdvertServiceImpl implements AdvertService {
     @Override
     public int insertAdvert(Advertisement advert) {
         return advertMappper.insert(advert);
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        return advertMappper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteBatchByVO(Data data) {
+        //System.out.println(data.getIds());
+        return advertMappper.deleteBatchByVO(data);
+    }
+
+    @Override
+    public Advertisement getById(Integer id) {
+        return advertMappper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateAdvert(Advertisement advert) {
+        return advertMappper.update(advert);
     }
 }

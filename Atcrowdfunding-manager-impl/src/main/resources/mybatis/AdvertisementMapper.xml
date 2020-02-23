@@ -55,4 +55,18 @@
     </where>
   </select>
 
+  <delete id="deleteBatchByVO">
+    delete from t_advertisement where id in
+    <foreach collection="datas" open="(" close=")" separator="," item="advert">
+      #{advert.id}
+    </foreach>
+  </delete>
+
+  <update id="update" parameterType="com.atguigu.atcrowdfunding.bean.Advertisement" >
+    update t_advertisement
+    set name = #{name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 </mapper>

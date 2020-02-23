@@ -6,6 +6,7 @@ import com.atguigu.atcrowdfunding.manager.service.AdvertService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
 import com.atguigu.atcrowdfunding.util.Const;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,8 +96,15 @@ public class AdvertController {
 
             ServletContext servletContext = session.getServletContext();
             String realpath = servletContext.getRealPath("/pics");
+            System.out.println("getResourcePaths---"+servletContext.getResourcePaths("/pics"));
+            System.out.println("getContextPath---"+servletContext.getContextPath());
 
-            String path =realpath+ "\\adv\\"+iconpath;
+            ///Users/cuihaiyan/py_workspace/javaPro/idea-workspace/Atcrowdfunding-parent/out/artifacts/Atcrowdfunding_main_war_exploded/
+            // pics\adv\39e3c45f-e002-45ae-b9cd-84fe439d8cd6.jpg
+
+
+            String path =realpath+ File.separator+"adv"+File.separator+iconpath;
+
             System.out.println("--------> ths save path is:"+path);
             mfile.transferTo(new File(path));
 
@@ -113,6 +121,67 @@ public class AdvertController {
         }
 
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/delete")
+    public Object doDelete(Integer id){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = advertService.deleteById(id);
+            ajaxResult.setSuccess(count == 1);
+            ajaxResult.setMessage("删除成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("删除失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+    //batchDelete
+    //接收多条数据
+    @ResponseBody
+    @RequestMapping("/batchDelete")
+    public Object doDeleteBatch(Data data){
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            int count = advertService.deleteBatchByVO(data);
+            ajaxResult.setSuccess(count == data.getDatas().size());
+            ajaxResult.setMessage("删除成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("删除失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
+    }
+
+
+    //同步请求用map
+    @RequestMapping("/edit")
+    public String edit(Integer id, Map map) {
+        Advertisement advert = advertService.getById(id);
+        map.put("advert", advert);
+        return "/advert/edit";
+    }
+
+    //异步请求
+    @ResponseBody
+    @RequestMapping("/update")
+    public Object update(Advertisement advert) {
+        AjaxResult ajaxResult = new AjaxResult();
+
+        try {
+            int count = advertService.updateAdvert(advert);
+            ajaxResult.setSuccess(count == 1);
+            ajaxResult.setMessage("更新成功");
+        } catch (Exception e) {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("更新失败");
+            e.printStackTrace();
+        }
+        return ajaxResult;
     }
 
 

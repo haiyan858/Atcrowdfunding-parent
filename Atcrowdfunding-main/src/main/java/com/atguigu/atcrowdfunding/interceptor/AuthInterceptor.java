@@ -1,9 +1,8 @@
 package com.atguigu.atcrowdfunding.interceptor;
 
 import com.atguigu.atcrowdfunding.bean.Permission;
-import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.manager.service.PermissionService;
-import com.atguigu.atcrowdfunding.util.Cont;
+import com.atguigu.atcrowdfunding.util.Const;
 import com.atguigu.atcrowdfunding.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -33,7 +32,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-        //获取系统所有许可权限菜单，必须包含请求路径url，否则拒绝访问（后续可优化）
+        //获取系统所有许可权限菜单，必须包含请求路径url，否则拒绝访问
+        // （后续可优化，每次拦截请求都要查询数据库，效率比较低）
         List<Permission> permissionList = permissionService.queryAllPermission();
 
         Set<String> allURIs = new HashSet<>();
@@ -43,6 +43,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             }
         }
 
+        //改进效率：在服务器启动时加载所有数据，并存放到application域中 application.setAttribute()
+       //f Set<String> allURIs = (Set<String>) request.getSession().getServletContext().getAttribute(Const.ALL_PERMISSION_URI);
+
         //1、首先判断请求的路径是不是已有的合法路径
         String requestURI = request.getRequestURI(); // /some/path.htm
         if (allURIs.contains(requestURI)){
@@ -51,7 +54,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             //获取当前用户的许可菜单，必须包含请求路径url，否则拒绝访问
             HttpSession session = request.getSession();
             //请求main的时候放进去的
-            Set<String> myAuthURIs = (Set<String>) session.getAttribute(Cont.MY_URIS);
+            Set<String> myAuthURIs = (Set<String>) session.getAttribute(Const.MY_URIS);
 
             if (myAuthURIs.contains(requestURI)){
                 return true;

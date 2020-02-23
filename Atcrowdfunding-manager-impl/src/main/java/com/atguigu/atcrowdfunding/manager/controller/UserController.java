@@ -2,22 +2,17 @@ package com.atguigu.atcrowdfunding.manager.controller;
 
 import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.bean.User;
-import com.atguigu.atcrowdfunding.manager.dao.UserMapper;
 import com.atguigu.atcrowdfunding.manager.service.UserService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
-import com.atguigu.atcrowdfunding.util.Cont;
-import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.Page;
 import com.atguigu.atcrowdfunding.vo.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**

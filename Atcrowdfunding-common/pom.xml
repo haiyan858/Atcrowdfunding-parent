@@ -154,7 +154,7 @@
             <artifactId>freemarker</artifactId>
         </dependency>
 
-        <dependency>
+      <!--  <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-engine</artifactId>
         </dependency>
@@ -162,7 +162,7 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.apache.commons</groupId>

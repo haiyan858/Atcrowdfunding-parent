@@ -4,7 +4,7 @@ import com.atguigu.atcrowdfunding.bean.Permission;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.manager.service.UserService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
-import com.atguigu.atcrowdfunding.util.Cont;
+import com.atguigu.atcrowdfunding.util.Const;
 import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,26 +31,18 @@ public class DispatcherController {
     @RequestMapping("/main")
     public String main(HttpSession session){
 
-        /*//加载当前登录用户所拥有的许可权限
+        //加载当前登录用户所拥有的许可权限
 
-        User user = (User) session.getAttribute(Cont.LOGIN_USER);
+        User user = (User) session.getAttribute(Const.LOGIN_USER);
 
         List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId());
 
         Permission permissionRoot = null;
 
-        //存放用户已分配的uri
-        Set<String> myAuthURIs = new HashSet<>(); //用于拦截器拦截许可权限
-
         Map<Integer,Permission> map = new HashMap<Integer, Permission>();
         for (Permission permission: myPermissions){
             map.put(permission.getId(),permission);
-            if (StringUtil.isNotEmpty(permission.getUrl())){
-                myAuthURIs.add("/"+permission.getUrl());
-            }
         }
-
-        session.setAttribute(Cont.MY_URIS,myAuthURIs);
 
         for (Permission permission: myPermissions){
             //Permission child = permission; //假设为子菜单
@@ -65,7 +57,7 @@ public class DispatcherController {
         }
 
         //sessionScope.permissionRoot.children
-        session.setAttribute("permissionRoot",permissionRoot);*/
+        session.setAttribute("permissionRoot",permissionRoot);
         return "main";
     }
 
@@ -83,7 +75,7 @@ public class DispatcherController {
     @RequestMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
-        //session.removeAttribute(Cont.LOGIN_USER);
+        //session.removeAttribute(Const.LOGIN_USER);
         //return "redirect:/login.htm";
         return "redirect:/index.htm";
     }
@@ -105,7 +97,7 @@ public class DispatcherController {
             //<tx:method name="query*" read-only="true"/>
             User user = userService.queryUserlogin(paramMap);
 
-            session.setAttribute(Cont.LOGIN_USER,user);
+            session.setAttribute(Const.LOGIN_USER,user);
 
 //        Map<Object, Object> map = new HashMap<>();
 //        map.put("success",true);
@@ -116,7 +108,7 @@ public class DispatcherController {
 
             //加载当前登录用户所拥有的许可权限
 
-            //User user = (User) session.getAttribute(Cont.LOGIN_USER);
+            //User user = (User) session.getAttribute(Const.LOGIN_USER);
 
             List<Permission> myPermissions = userService.queryPermissionByUserid(user.getId());
 
@@ -133,7 +125,7 @@ public class DispatcherController {
                 }
             }
 
-            session.setAttribute(Cont.MY_URIS,myAuthURIs);
+            session.setAttribute(Const.MY_URIS,myAuthURIs);
 
             for (Permission permission: myPermissions){
                 //Permission child = permission; //假设为子菜单

@@ -2,7 +2,6 @@ package com.atguigu.atcrowdfunding.manager.controller;
 
 import com.atguigu.atcrowdfunding.bean.Permission;
 import com.atguigu.atcrowdfunding.bean.Role;
-import com.atguigu.atcrowdfunding.manager.dao.RoleMapper;
 import com.atguigu.atcrowdfunding.manager.service.PermissionService;
 import com.atguigu.atcrowdfunding.manager.service.RoleService;
 import com.atguigu.atcrowdfunding.util.AjaxResult;

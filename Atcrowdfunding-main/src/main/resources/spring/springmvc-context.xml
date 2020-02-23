@@ -34,6 +34,19 @@
             </list>
         </property>
     </bean>
+   <!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
@@ -41,16 +54,16 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
 
-    <bean id="exceptionResolver"   class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <!-- <property name="exceptionAttribute" value="exception"/>  -->
-        <!-- 异常解析器捕获异常后,会将异常对象存放到request域.属性名称默认为:exception -->
-        <property name="exceptionMappings">
-            <props>
-                <prop key="java.lang.Exception">error/error</prop>
-                <prop key="com.atguigu.atcrowdfunding.exception.LoginFailException">login</prop>
-            </props>
-        </property>
-    </bean>
+<!--    <bean id="exceptionResolver"   class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+<!--        &lt;!&ndash; <property name="exceptionAttribute" value="exception"/>  &ndash;&gt;-->
+<!--        &lt;!&ndash; 异常解析器捕获异常后,会将异常对象存放到request域.属性名称默认为:exception &ndash;&gt;-->
+<!--        <property name="exceptionMappings">-->
+<!--            <props>-->
+<!--                <prop key="java.lang.Exception">error/error</prop>-->
+<!--                <prop key="com.atguigu.atcrowdfunding.exception.LoginFailException">login</prop>-->
+<!--            </props>-->
+<!--        </property>-->
+<!--    </bean>-->
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="UTF-8">
         <property name="maxUploadSize" value="2097152"/>

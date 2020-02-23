@@ -6,7 +6,7 @@ import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.exception.LoginFailException;
 import com.atguigu.atcrowdfunding.manager.dao.UserMapper;
 import com.atguigu.atcrowdfunding.manager.service.UserService;
-import com.atguigu.atcrowdfunding.util.Cont;
+import com.atguigu.atcrowdfunding.util.Const;
 import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.Page;
 import com.atguigu.atcrowdfunding.vo.Data;
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
         String createtime = simpleDateFormat.format(date);
         user.setCreatetime(createtime);
 
-        user.setUserpswd(MD5Util.digest(Cont.PASSWORD));
+        user.setUserpswd(MD5Util.digest(Const.PASSWORD));
         return userMapper.insert(user);
     }
 
